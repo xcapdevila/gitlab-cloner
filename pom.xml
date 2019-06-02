@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>gitlab-cloner</artifactId>
+  <groupId>io.capdevila.gitlab</groupId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <name>gitlab-cloner</name>
+  <description>Process that uses a GitLab client to clone massively projects in an easy way</description>
+
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <relativePath/>
+    <version>2.1.5.RELEASE</version> <!-- lookup parent from repository -->
+  </parent>
+
+  <properties>
+    <commons-lang3.version>3.9</commons-lang3.version>
+    <gitlab4j-api.version>4.11.3</gitlab4j-api.version>
+    <java.version>1.8</java.version>
+    <junit.jupiter.version>5.3.2</junit.jupiter.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <artifactId>spring-boot-starter</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.gitlab4j/gitlab4j-api -->
+    <dependency>
+      <artifactId>gitlab4j-api</artifactId>
+      <groupId>org.gitlab4j</groupId>
+      <version>${gitlab4j-api.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+    <dependency>
+      <artifactId>commons-lang3</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <version>${commons-lang3.version}</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit</artifactId>
+          <groupId>junit</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>org.springframework.boot</groupId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>${junit.jupiter.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+    <dependency>
+      <artifactId>javafaker</artifactId>
+      <groupId>com.github.javafaker</groupId>
+      <version>0.18</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/uk.co.jemos.podam/podam -->
+    <dependency>
+      <artifactId>podam</artifactId>
+      <groupId>uk.co.jemos.podam</groupId>
+      <scope>test</scope>
+      <version>7.2.3.RELEASE</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
