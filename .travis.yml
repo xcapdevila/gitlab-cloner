@@ -4,7 +4,7 @@ jdk:
   - oraclejdk8
 
 script:
-  - ./mvnw clean install -B --spring.profiles.active=test
+  - ./mvnw clean install -B
 
 sudo: false
 
