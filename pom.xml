@@ -24,11 +24,11 @@
     <gitlab4j-api.version>4.11.3</gitlab4j-api.version>
 
     <junit.jupiter.version>5.3.2</junit.jupiter.version>
-    <codacy-coverage-reporter.version>6.0.0</codacy-coverage-reporter.version>
+    <javafaker.version>0.18</javafaker.version>
+    <podam.version>7.2.3.RELEASE</podam.version>
 
     <jacoco.version>0.8.4</jacoco.version>
     <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
-    <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -68,27 +68,21 @@
     <dependency>
       <artifactId>junit-jupiter-engine</artifactId>
       <groupId>org.junit.jupiter</groupId>
-      <scope>test</scope>
       <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
     <dependency>
       <artifactId>javafaker</artifactId>
       <groupId>com.github.javafaker</groupId>
-      <version>0.18</version>
+      <version>${javafaker.version}</version>
+      <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/uk.co.jemos.podam/podam -->
     <dependency>
       <artifactId>podam</artifactId>
       <groupId>uk.co.jemos.podam</groupId>
-      <scope>test</scope>
-      <version>7.2.3.RELEASE</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.codacy/codacy-coverage-reporter -->
-    <dependency>
-      <groupId>com.codacy</groupId>
-      <artifactId>codacy-coverage-reporter</artifactId>
-      <version>${codacy-coverage-reporter.version}</version>
+      <version>${podam.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -118,31 +112,6 @@
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
         <version>${coveralls-maven-plugin.version}</version>
-      </plugin>
-      <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>${exec-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <phase>test</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <mainClass>com.codacy.CodacyCoverageReporter</mainClass>
-              <arguments>
-                <argument>report</argument>
-                <argument>-l</argument>
-                <argument>Java</argument>
-                <argument>-r</argument>
-                <argument>target/jacoco/jacoco.xml</argument>
-              </arguments>
-              <classpathScope>test</classpathScope>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
