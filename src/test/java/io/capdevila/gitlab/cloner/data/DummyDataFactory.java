@@ -16,8 +16,16 @@ public class DummyDataFactory {
 
   private static final PodamFactory factory = new PodamFactoryImpl();
 
+  private DummyDataFactory() {
+    throw new UnsupportedOperationException("Factory class");
+  }
+
   public static List<Project> getFakedProjects() {
     return getFakedProjects(null, null, null);
+  }
+
+  public static List<Project> getFakedProjects(Integer numberOfProjects) {
+    return getFakedProjects(null, null, numberOfProjects);
   }
 
   public static List<Project> getFakedProjects(String gName, String uName) {
@@ -51,12 +59,21 @@ public class DummyDataFactory {
     return projects;
   }
 
-  public static List<Project> getFakedProjectsForGroup(String gName) {
-    return getFakedProjects(gName, null, null);
+  public static List<Project> getFakedProjectsForGroup(String gName,
+      Integer numberOfProjects) {
+    return getFakedProjects(gName, null, numberOfProjects);
   }
 
   public static List<Project> getFakedProjectsForUsername(String uName) {
     return getFakedProjects(null, uName, null);
+  }
+
+  public static List<Project> getFakedProjectsForUsername(String uName, Integer numberOfProjects) {
+    return getFakedProjects(null, uName, numberOfProjects);
+  }
+
+  public static Project getFakedProjectsForProjectName(String projectName) {
+    return getFakedProject(null, projectName, null);
   }
 
   public static Project getFakedProject(String groupName, String projectName, String username) {

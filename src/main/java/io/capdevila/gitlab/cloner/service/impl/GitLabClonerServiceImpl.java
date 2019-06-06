@@ -3,6 +3,7 @@ package io.capdevila.gitlab.cloner.service.impl;
 import io.capdevila.gitlab.cloner.exception.GitLabServiceApiException;
 import io.capdevila.gitlab.cloner.exception.GitLabServiceProcessException;
 import io.capdevila.gitlab.cloner.helper.GitCommandsHelper;
+import io.capdevila.gitlab.cloner.helper.ProjectHelper;
 import io.capdevila.gitlab.cloner.helper.SystemUtilsHelper;
 import io.capdevila.gitlab.cloner.repository.impl.GitLab4JApiRepository;
 import io.capdevila.gitlab.cloner.service.GitLabClonerService;
@@ -41,6 +42,7 @@ public class GitLabClonerServiceImpl implements GitLabClonerService {
   private final GitLab4JApiRepository gitLab4JApiRepository;
   private final GitCommandsHelper gitCommandsHelper;
   private final SystemUtilsHelper systemUtilsHelper;
+  private final ProjectHelper projectHelper;
   private final Executor executor;
 
   @Override
@@ -95,7 +97,7 @@ public class GitLabClonerServiceImpl implements GitLabClonerService {
     final String directoryPath;
     if (directory.endsWith(PROJECT_GROUP)) {
       directoryPath = directory.replaceAll(PROJECT_GROUP, "")
-          .concat(getProjectGroup(project));
+          .concat(projectHelper.getProjectGroup(project));
     } else if (directory.equals(USER_HOME)) {
       directoryPath = systemUtilsHelper.getUserHome();
     } else {
@@ -112,23 +114,11 @@ public class GitLabClonerServiceImpl implements GitLabClonerService {
     final String directoryPath;
     if (directory.equals(USER_HOME)) {
       directoryPath = systemUtilsHelper.getUserHome()
-          .concat(getProjectGroup(project));
+          .concat(projectHelper.getProjectGroup(project));
     } else {
-      directoryPath = directory.concat(getProjectGroup(project));
+      directoryPath = directory.concat(projectHelper.getProjectGroup(project));
     }
     addDirectoryAndCommandAndExcecute(project, isSsh, processBuilder, directoryPath);
-  }
-
-  private String getProjectGroup(Project project) {
-    log.debug(LOG_PROJECT_NAME, project.getName());
-
-    final String groupAndProjectName = project.getNameWithNamespace()
-        .replaceAll(" ", "");
-    final String groupName = groupAndProjectName
-        .substring(0, groupAndProjectName.lastIndexOf('/'));
-    log.debug(LOG_GROUP_NAME, groupName);
-
-    return groupName;
   }
 
   private void addDirectoryAndCommandAndExcecute(Project project, boolean isSsh,

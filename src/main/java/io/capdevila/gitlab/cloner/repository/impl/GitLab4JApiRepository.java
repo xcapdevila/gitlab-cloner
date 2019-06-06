@@ -1,6 +1,7 @@
 package io.capdevila.gitlab.cloner.repository.impl;
 
 import io.capdevila.gitlab.cloner.exception.GitLabApiCommunicationException;
+import io.capdevila.gitlab.cloner.helper.ProjectHelper;
 import io.capdevila.gitlab.cloner.repository.GitLabApiRepository;
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class GitLab4JApiRepository implements GitLabApiRepository {
 
   private final GitLabApi gitLabApi;
+  private final ProjectHelper projectHelper;
 
   @Cacheable
   @Override
@@ -53,7 +55,7 @@ public class GitLab4JApiRepository implements GitLabApiRepository {
       return gitLabApi.getProjectApi().getProjects()
           .stream()
           .filter(project -> Objects.nonNull(project.getNameWithNamespace())
-              && project.getNameWithNamespace().equalsIgnoreCase(groupName))
+              && projectHelper.getProjectGroup(project).equalsIgnoreCase(groupName))
           .collect(Collectors.toList());
     } catch (GitLabApiException gitLabApiException) {
       throw new GitLabApiCommunicationException(gitLabApiException);
