@@ -17,5 +17,5 @@ before_cache:
   - rm -rf $HOME/.m2/repository/io/capdevila/gitlab/gitlab-cloner
 
 after_success:
-  - java -jar ~/codacy-coverage-reporter-assembly.jar report -l Java -r target/jacoco/jacoco.xml
   - ./mvnw clean test jacoco:report coveralls:report -B
+  - java -jar ~/codacy-coverage-reporter-assembly.jar report -l Java -r target/jacoco/jacoco.xml
