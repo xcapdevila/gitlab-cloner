@@ -15,4 +15,14 @@ public class GitLabClonerApplicationTests {
   public void contextLoads() {
   }
 
+  @Test
+  public void runWithOptionArgs() {
+    GitLabClonerApplication.main(new String[]{"--spring.profiles.active=test"});
+  }
+
+  @Test
+  public void runWithAllArgs() {
+    GitLabClonerApplication.main(new String[]{"--spring.profiles.active=test", "arg"});
+  }
+
 }

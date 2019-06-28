@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class GitLabClonerConfigurationTests {
 
   private static final String PRIVATE_TOKEN = "PRIVATE_TOKEN";
-  private static final String HOST_URL = "HOST_URL";
+  private static final String HOST_URL = "https://www.gitlab.com";
   private static final String USERNAME = "USERNAME";
   private static final String PASSWORD = "PASSWORD";
 
@@ -61,6 +61,7 @@ public class GitLabClonerConfigurationTests {
   @Test
   public void gitLabApiWithUsernameAndPasswordAndMalformedHostUrlThrowsGitLabApiConfigurationException() {
 
+    Mockito.when(gitLabApiProperties.getPrivateToken()).thenReturn(null);
     Mockito.when(gitLabApiProperties.getHostUrl()).thenReturn(HOST_URL);
     Mockito.when(gitLabApiProperties.getUsername()).thenReturn(USERNAME);
     Mockito.when(gitLabApiProperties.getPassword()).thenReturn(PASSWORD);
