@@ -6,27 +6,6 @@ package io.capdevila.gitlab.cloner.exception;
 public class GitLabApiConfigurationException extends RuntimeException {
 
   /**
-   * Constructs a new runtime exception with {@code null} as its detail message.  The cause is not
-   * initialized, and may subsequently be initialized by a call to
-   * {@link #initCause}.
-   */
-  public GitLabApiConfigurationException() {
-    super();
-  }
-
-  /**
-   * Constructs a new runtime exception with the specified detail message. The cause is not
-   * initialized, and may subsequently be initialized by a call to {@link
-   * #initCause}.
-   *
-   * @param message the detail message. The detail message is saved for later retrieval by
-   *     the {@link #getMessage()} method.
-   */
-  public GitLabApiConfigurationException(String message) {
-    super(message);
-  }
-
-  /**
    * Constructs a new runtime exception with the specified cause and a detail message of
    * <tt>(cause==null ? null : cause.toString())</tt> (which typically
    * contains the class and detail message of

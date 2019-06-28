@@ -3,7 +3,7 @@ package io.capdevila.gitlab.cloner.service.impl;
 import io.capdevila.gitlab.cloner.data.DummyDataFactory;
 import io.capdevila.gitlab.cloner.exception.GitLabServiceApiException;
 import io.capdevila.gitlab.cloner.exception.GitLabServiceProcessException;
-import io.capdevila.gitlab.cloner.helper.GitCommandsHelper;
+import io.capdevila.gitlab.cloner.helper.GitCommandHelper;
 import io.capdevila.gitlab.cloner.helper.ProjectHelper;
 import io.capdevila.gitlab.cloner.helper.SystemUtilsHelper;
 import io.capdevila.gitlab.cloner.repository.impl.GitLab4JApiRepository;
@@ -41,7 +41,7 @@ public class GitLabClonerServiceImplTests {
   private GitLab4JApiRepository gitLab4JApiRepository;
 
   @MockBean
-  private GitCommandsHelper gitCommandsHelper;
+  private GitCommandHelper gitCommandHelper;
 
   @MockBean
   private SystemUtilsHelper systemUtilsHelper;
@@ -55,7 +55,7 @@ public class GitLabClonerServiceImplTests {
 
   @BeforeEach
   public void setUp() {
-    Mockito.when(gitCommandsHelper.getGitCloneCommand(ArgumentMatchers.anyString()))
+    Mockito.when(gitCommandHelper.getGitCloneCommand(ArgumentMatchers.anyString()))
         .thenReturn("ls");
 
     Mockito.when(systemUtilsHelper.isOsWindows())
@@ -80,7 +80,7 @@ public class GitLabClonerServiceImplTests {
   public void cloneProjectWithNullDirectoryThrowsNullPointerException() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     final String projectName = TEST_PROJECT;
     final boolean isSsh = false;
@@ -95,7 +95,7 @@ public class GitLabClonerServiceImplTests {
   public void cloneProjectWithNullProjectNameThrowsNullPointerException() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     final boolean isSsh = false;
 
@@ -109,14 +109,14 @@ public class GitLabClonerServiceImplTests {
   public void cloneProjectHttps() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     gitLabClonerServiceImpl.cloneProject(TEST_DIRECTORY, TEST_PROJECT, false);
 
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getProject(ArgumentMatchers.anyString());
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -134,7 +134,7 @@ public class GitLabClonerServiceImplTests {
         .execute(ArgumentMatchers.any(Runnable.class));
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     Assertions.assertThrows(GitLabServiceApiException.class, () -> {
       gitLabClonerServiceImpl.cloneProject(TEST_DIRECTORY, TEST_PROJECT, false);
@@ -143,7 +143,7 @@ public class GitLabClonerServiceImplTests {
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getProject(ArgumentMatchers.anyString());
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -158,14 +158,14 @@ public class GitLabClonerServiceImplTests {
   public void cloneProjectSsh() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     gitLabClonerServiceImpl.cloneProject(TEST_DIRECTORY, TEST_PROJECT, true);
 
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getProject(ArgumentMatchers.anyString());
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -182,7 +182,7 @@ public class GitLabClonerServiceImplTests {
     Mockito.when(systemUtilsHelper.isOsWindows()).thenReturn(!SystemUtils.IS_OS_WINDOWS);
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     Assertions.assertThrows(GitLabServiceApiException.class, () -> {
       gitLabClonerServiceImpl.cloneProject(TEST_DIRECTORY, TEST_PROJECT, false);
@@ -191,7 +191,7 @@ public class GitLabClonerServiceImplTests {
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getProject(ArgumentMatchers.anyString());
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -203,7 +203,7 @@ public class GitLabClonerServiceImplTests {
   public void cloneProjectHttpsWithUserHomeDirectory() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     gitLabClonerServiceImpl.cloneProject(USER_HOME_DIRECTORY, TEST_PROJECT, false);
 
@@ -213,7 +213,7 @@ public class GitLabClonerServiceImplTests {
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
         .getUserHome();
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -228,7 +228,7 @@ public class GitLabClonerServiceImplTests {
   public void cloneProjectHttpsWithProjectGroupDirectoryThrowsGitLabServiceApiException() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     Assertions.assertThrows(GitLabServiceApiException.class, () -> {
       gitLabClonerServiceImpl.cloneProject(PROJECT_GROUP_DIRECTORY, TEST_PROJECT, false);
@@ -237,7 +237,7 @@ public class GitLabClonerServiceImplTests {
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getProject(ArgumentMatchers.anyString());
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -248,13 +248,13 @@ public class GitLabClonerServiceImplTests {
   @Test
   public void cloneProjectSshWithFakeCommandAndRealExecutorThrowsGitLabServiceProcessException() {
 
-    Mockito.when(gitCommandsHelper.getGitCloneCommand(ArgumentMatchers.anyString()))
+    Mockito.when(gitCommandHelper.getGitCloneCommand(ArgumentMatchers.anyString()))
         .thenReturn("fake_command");
 
     Executor realExecutor = Executors.newSingleThreadExecutor();
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper,
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper,
         realExecutor);
 
     Assertions.assertThrows(GitLabServiceProcessException.class, () ->
@@ -264,7 +264,7 @@ public class GitLabClonerServiceImplTests {
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getProject(ArgumentMatchers.anyString());
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -276,14 +276,14 @@ public class GitLabClonerServiceImplTests {
   public void cloneAllProjectsHttps() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     gitLabClonerServiceImpl.cloneAllProjects(USER_HOME_DIRECTORY, false);
 
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getAllProjects();
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -298,14 +298,14 @@ public class GitLabClonerServiceImplTests {
   public void cloneGroupProjectsHttps() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     gitLabClonerServiceImpl.cloneGroupProjects(USER_HOME_DIRECTORY, TEST_GROUP, false);
 
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getAllProjectsByGroup(TEST_GROUP);
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -320,14 +320,14 @@ public class GitLabClonerServiceImplTests {
   public void cloneUserProjectsHttps() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     gitLabClonerServiceImpl.cloneUserProjects(USER_HOME_DIRECTORY, TEST_USER, false);
 
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getAllProjectsByOwner(TEST_USER);
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -342,7 +342,7 @@ public class GitLabClonerServiceImplTests {
   public void cloneAllProjectsByGroupHttpsThrowsGitLabServiceApiException() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     Assertions.assertThrows(GitLabServiceApiException.class, () ->
         gitLabClonerServiceImpl.cloneAllProjectsByGroup(USER_HOME_DIRECTORY, false));
@@ -350,7 +350,7 @@ public class GitLabClonerServiceImplTests {
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getAllProjects();
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))
@@ -362,7 +362,7 @@ public class GitLabClonerServiceImplTests {
   public void cloneAllProjectsByGroupHttpsWithNotHomeDirectoryThrowsGitLabServiceApiException() {
 
     final GitLabClonerServiceImpl gitLabClonerServiceImpl = new GitLabClonerServiceImpl(
-        gitLab4JApiRepository, gitCommandsHelper, systemUtilsHelper, projectHelper, executor);
+        gitLab4JApiRepository, gitCommandHelper, systemUtilsHelper, projectHelper, executor);
 
     Assertions.assertThrows(GitLabServiceApiException.class, () ->
         gitLabClonerServiceImpl.cloneAllProjectsByGroup(TEST_DIRECTORY, false));
@@ -370,7 +370,7 @@ public class GitLabClonerServiceImplTests {
     Mockito.verify(gitLab4JApiRepository, Mockito.times(1))
         .getAllProjects();
 
-    Mockito.verify(gitCommandsHelper, Mockito.times(1))
+    Mockito.verify(gitCommandHelper, Mockito.times(1))
         .getGitCloneCommand(ArgumentMatchers.anyString());
 
     Mockito.verify(systemUtilsHelper, Mockito.times(1))

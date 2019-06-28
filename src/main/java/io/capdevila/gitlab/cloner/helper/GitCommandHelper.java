@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @author Xavier Capdevila Estevez on 2019-06-01.
  */
 @Component
-public class GitCommandsHelper {
+public class GitCommandHelper {
 
   @Cacheable(cacheNames = "getGitCloneCommand", key = "#urlToClone")
   public String getGitCloneCommand(@NonNull String urlToClone) {

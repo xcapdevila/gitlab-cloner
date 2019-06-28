@@ -2,7 +2,7 @@ package io.capdevila.gitlab.cloner.service.impl;
 
 import io.capdevila.gitlab.cloner.exception.GitLabServiceApiException;
 import io.capdevila.gitlab.cloner.exception.GitLabServiceProcessException;
-import io.capdevila.gitlab.cloner.helper.GitCommandsHelper;
+import io.capdevila.gitlab.cloner.helper.GitCommandHelper;
 import io.capdevila.gitlab.cloner.helper.ProjectHelper;
 import io.capdevila.gitlab.cloner.helper.SystemUtilsHelper;
 import io.capdevila.gitlab.cloner.repository.impl.GitLab4JApiRepository;
@@ -40,7 +40,7 @@ public class GitLabClonerServiceImpl implements GitLabClonerService {
   private static final String LOG_OWNER_USERNAME = "ownerUsername: {}";
 
   private final GitLab4JApiRepository gitLab4JApiRepository;
-  private final GitCommandsHelper gitCommandsHelper;
+  private final GitCommandHelper gitCommandHelper;
   private final SystemUtilsHelper systemUtilsHelper;
   private final ProjectHelper projectHelper;
   private final Executor executor;
@@ -141,9 +141,9 @@ public class GitLabClonerServiceImpl implements GitLabClonerService {
     log.debug(LOG_IS_SSH, isSsh);
     final String cloneCommand;
     if (isSsh) {
-      cloneCommand = gitCommandsHelper.getGitCloneCommand(project.getSshUrlToRepo());
+      cloneCommand = gitCommandHelper.getGitCloneCommand(project.getSshUrlToRepo());
     } else {
-      cloneCommand = gitCommandsHelper.getGitCloneCommand(project.getHttpUrlToRepo());
+      cloneCommand = gitCommandHelper.getGitCloneCommand(project.getHttpUrlToRepo());
     }
 
     log.debug("Add command: {}", cloneCommand);
