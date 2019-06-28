@@ -26,7 +26,8 @@ public class GitLabClonerApplication implements ApplicationRunner {
     logApplicationArguments(args);
 
     try {
-      GitLabClonerHandler gitLabClonerHandler = applicationContext.getBean(GitLabClonerHandler.class);
+      GitLabClonerHandler gitLabClonerHandler = applicationContext
+          .getBean(GitLabClonerHandler.class);
       gitLabClonerHandler.handle();
     } catch (BeansException beansException) {
       log.warn("Error getting GitLabClonerHandler bean.\nAre you using profile \"test\"?");

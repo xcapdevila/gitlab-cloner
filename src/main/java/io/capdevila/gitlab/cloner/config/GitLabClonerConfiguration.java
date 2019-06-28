@@ -63,7 +63,8 @@ public class GitLabClonerConfiguration {
 
   @Profile("!test")
   @Bean
-  public GitLabClonerHandler gitLabClonerHandler(GitLabClonerProperties gitLabClonerProperties, GitLabClonerService gitLabClonerService) {
+  public GitLabClonerHandler gitLabClonerHandler(GitLabClonerProperties gitLabClonerProperties,
+      GitLabClonerService gitLabClonerService) {
     return new GitLabClonerHandler(gitLabClonerProperties, gitLabClonerService);
   }
 
@@ -101,7 +102,8 @@ public class GitLabClonerConfiguration {
      * @deprecated see {@link #build(String)}
      */
     @Deprecated
-    private GitLabApi build(@NonNull String username, @NonNull String password) throws GitLabApiException {
+    private GitLabApi build(@NonNull String username, @NonNull String password)
+        throws GitLabApiException {
       log.warn("Login authentication is @Deprecated!! Consider using a private token.");
       return GitLabApi.login(hostUrl, username, password);
     }

@@ -19,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.gitlab4j.api.models.Project;
 import org.springframework.stereotype.Service;
 
-//TODO: if final directoryPath does not exists it should be created?
-
 /**
  * @author Xavier Capdevila Estevez on 2019-05-29.
  */
@@ -28,7 +26,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class GitLabClonerServiceImpl implements GitLabClonerService {
-
 
   private static final String PROJECT_GROUP = "project_group";
   private static final String USER_HOME = "user_home";
@@ -187,6 +184,4 @@ public class GitLabClonerServiceImpl implements GitLabClonerService {
     }
   }
 
-
 }
-

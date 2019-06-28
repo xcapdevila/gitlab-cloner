@@ -32,7 +32,8 @@ public class DummyDataFactory {
     return getFakedProjects(gName, uName, null);
   }
 
-  public static List<Project> getFakedProjects(String gName, String uName, Integer numberOfProjects) {
+  public static List<Project> getFakedProjects(String gName, String uName,
+      Integer numberOfProjects) {
     Faker faker = new Faker();
 
     final String groupName;
@@ -54,7 +55,8 @@ public class DummyDataFactory {
     }
 
     final List<Project> projects = new ArrayList<>();
-    IntStream.range(0, numberOfProjects).forEach(i -> projects.add(getFakedProject(groupName, null, username)));
+    IntStream.range(0, numberOfProjects)
+        .forEach(i -> projects.add(getFakedProject(groupName, null, username)));
 
     return projects;
   }
@@ -100,8 +102,10 @@ public class DummyDataFactory {
     project.setOwner(owner);
     project.setNameWithNamespace(groupName.concat(" / ").concat(project.getName()));
     project.setHttpUrlToRepo("https://");
-    project.setHttpUrlToRepo("https://github.com/".concat(project.getNameWithNamespace().replaceAll(" ", "").concat(".git")));
-    project.setSshUrlToRepo("git@github.com:".concat(project.getNameWithNamespace().replaceAll(" ", "").concat(".git")));
+    project.setHttpUrlToRepo("https://github.com/"
+        .concat(project.getNameWithNamespace().replaceAll(" ", "").concat(".git")));
+    project.setSshUrlToRepo("git@github.com:"
+        .concat(project.getNameWithNamespace().replaceAll(" ", "").concat(".git")));
 
     return project;
   }

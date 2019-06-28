@@ -12,8 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -75,7 +73,8 @@ public class GitLabClonerConfigurationTests {
   @Test
   public void gitLabClonerHandlerWithMocks() {
 
-    GitLabClonerHandler gitLabClonerHandler = gitLabClonerConfiguration.gitLabClonerHandler(gitLabClonerProperties, gitLabClonerService);
+    GitLabClonerHandler gitLabClonerHandler = gitLabClonerConfiguration
+        .gitLabClonerHandler(gitLabClonerProperties, gitLabClonerService);
     Assertions.assertNotNull(gitLabClonerHandler);
 
   }

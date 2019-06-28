@@ -78,7 +78,8 @@ public class GitLabClonerHandlerTests {
 
     GitLabClonerProperties gitLabClonerProperties = Mockito.mock(GitLabClonerProperties.class);
     Mockito.when(gitLabClonerProperties.getDirectory()).thenReturn("user_home");
-    Mockito.when(gitLabClonerProperties.getMode()).thenReturn(GitLabClonerMode.ALL_PROJECTS_BY_GROUP);
+    Mockito.when(gitLabClonerProperties.getMode())
+        .thenReturn(GitLabClonerMode.ALL_PROJECTS_BY_GROUP);
 
     new GitLabClonerHandler(gitLabClonerProperties, gitLabClonerService).handle();
 
@@ -110,7 +111,8 @@ public class GitLabClonerHandlerTests {
     new GitLabClonerHandler(gitLabClonerProperties, gitLabClonerService).handle();
 
     Mockito.verify(gitLabClonerService, Mockito.times(1))
-        .cloneGroupProjects(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean());
+        .cloneGroupProjects(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(),
+            ArgumentMatchers.anyBoolean());
   }
 
   @Test
@@ -137,7 +139,8 @@ public class GitLabClonerHandlerTests {
     new GitLabClonerHandler(gitLabClonerProperties, gitLabClonerService).handle();
 
     Mockito.verify(gitLabClonerService, Mockito.times(1))
-        .cloneUserProjects(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean());
+        .cloneUserProjects(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(),
+            ArgumentMatchers.anyBoolean());
   }
 
   @Test
@@ -164,7 +167,8 @@ public class GitLabClonerHandlerTests {
     new GitLabClonerHandler(gitLabClonerProperties, gitLabClonerService).handle();
 
     Mockito.verify(gitLabClonerService, Mockito.times(1))
-        .cloneProject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean());
+        .cloneProject(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(),
+            ArgumentMatchers.anyBoolean());
   }
 
 }
