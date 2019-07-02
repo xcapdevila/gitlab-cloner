@@ -4,6 +4,7 @@ import io.capdevila.gitlab.cloner.handler.GitLabClonerHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,9 @@ public class GitLabClonerApplication implements ApplicationRunner {
 
   @Autowired
   private ApplicationContext applicationContext;
+
+  @Value("${spring.profiles.active:unknown}")
+  private String activeProfile;
 
   public static void main(String[] args) {
     SpringApplication.run(GitLabClonerApplication.class, args);
@@ -32,6 +36,11 @@ public class GitLabClonerApplication implements ApplicationRunner {
     } catch (BeansException beansException) {
       log.warn("Error getting GitLabClonerHandler bean.\nAre you using profile \"test\"?");
     }
+
+    if (!activeProfile.equalsIgnoreCase("test")) {
+      System.exit(0);
+    }
+
   }
 
   private void logApplicationArguments(ApplicationArguments args) {

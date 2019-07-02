@@ -69,8 +69,10 @@ public class GitLab4JApiRepository implements GitLabApiRepository {
       log.debug("ownerUsername: {}", ownerUsername);
       return gitLabApi.getProjectApi().getProjects()
           .stream()
-          .filter(project -> Objects.nonNull(project)
-              && project.getOwner().getUsername().equalsIgnoreCase(ownerUsername))
+          .filter(
+              project -> Objects.nonNull(project.getOwner())
+                  && Objects.nonNull(project.getOwner().getUsername())
+                  && project.getOwner().getUsername().equalsIgnoreCase(ownerUsername))
           .collect(Collectors.toList());
     } catch (GitLabApiException gitLabApiException) {
       throw new GitLabApiCommunicationException(gitLabApiException);
