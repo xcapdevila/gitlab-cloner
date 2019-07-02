@@ -3,6 +3,7 @@ package io.capdevila.gitlab.cloner.data;
 import com.github.javafaker.Faker;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 import org.gitlab4j.api.models.Owner;
 import org.gitlab4j.api.models.Project;
@@ -21,75 +22,63 @@ public class DummyDataFactory {
   }
 
   public static List<Project> getFakedProjects() {
-    return getFakedProjects(null, null, null);
+    return getFakedProjects(Optional.empty(), Optional.empty(), Optional.empty());
   }
 
   public static List<Project> getFakedProjects(Integer numberOfProjects) {
-    return getFakedProjects(null, null, numberOfProjects);
+    return getFakedProjects(Optional.empty(), Optional.empty(),
+        Optional.ofNullable(numberOfProjects));
   }
 
-  public static List<Project> getFakedProjects(String gName, String uName) {
-    return getFakedProjects(gName, uName, null);
+  public static List<Project> getFakedProjects(String groupName, String username) {
+    return getFakedProjects(Optional.ofNullable(groupName), Optional.ofNullable(username),
+        Optional.empty());
   }
 
-  public static List<Project> getFakedProjects(String gName, String uName,
-      Integer numberOfProjects) {
+  public static List<Project> getFakedProjects(Optional<String> optionalGroupName,
+      Optional<String> optionalUsername,
+      Optional<Integer> optionalNumberOfProjects) {
     Faker faker = new Faker();
 
-    final String groupName;
-    if (gName == null) {
-      groupName = faker.regexify("[a-z]{10}");
-    } else {
-      groupName = gName;
-    }
-
-    final String username;
-    if (uName == null) {
-      username = faker.regexify("[a-z]{10}");
-    } else {
-      username = uName;
-    }
-
-    if (numberOfProjects == null) {
-      numberOfProjects = 1;
-    }
+    final String groupName = optionalGroupName.orElse(faker.regexify("[a-z]{10}"));
+    final String username = optionalUsername.orElse(faker.regexify("[a-z]{10}"));
+    final Integer numberOfProjects = optionalNumberOfProjects.orElse(1);
 
     final List<Project> projects = new ArrayList<>();
     IntStream.range(0, numberOfProjects)
-        .forEach(i -> projects.add(getFakedProject(groupName, null, username)));
+        .forEach(i -> projects.add(
+            getFakedProject(Optional.ofNullable(groupName), null, Optional.ofNullable(username))));
 
     return projects;
   }
 
-  public static List<Project> getFakedProjectsForGroup(String gName,
+  public static List<Project> getFakedProjectsForGroup(String groupName,
       Integer numberOfProjects) {
-    return getFakedProjects(gName, null, numberOfProjects);
+    return getFakedProjects(Optional.ofNullable(groupName), Optional.empty(),
+        Optional.ofNullable(numberOfProjects));
   }
 
-  public static List<Project> getFakedProjectsForUsername(String uName) {
-    return getFakedProjects(null, uName, null);
+  public static List<Project> getFakedProjectsForUsername(String username) {
+    return getFakedProjects(Optional.empty(), Optional.ofNullable(username), Optional.empty());
   }
 
-  public static List<Project> getFakedProjectsForUsername(String uName, Integer numberOfProjects) {
-    return getFakedProjects(null, uName, numberOfProjects);
+  public static List<Project> getFakedProjectsForUsername(String username,
+      Integer numberOfProjects) {
+    return getFakedProjects(Optional.empty(), Optional.ofNullable(username),
+        Optional.ofNullable(numberOfProjects));
   }
 
   public static Project getFakedProjectsForProjectName(String projectName) {
-    return getFakedProject(null, projectName, null);
+    return getFakedProject(Optional.empty(), Optional.ofNullable(projectName), Optional.empty());
   }
 
-  public static Project getFakedProject(String groupName, String projectName, String username) {
+  public static Project getFakedProject(Optional<String> optionalGroupName,
+      Optional<String> optionalProjectName, Optional<String> optionalUsername) {
     Faker faker = new Faker();
 
-    if (groupName == null) {
-      groupName = faker.regexify("[a-z]{10}");
-    }
-    if (projectName == null) {
-      projectName = faker.regexify("[a-z]{10}");
-    }
-    if (username == null) {
-      username = faker.regexify("[a-z]{10}");
-    }
+    final String groupName = optionalGroupName.orElse(faker.regexify("[a-z]{10}"));
+    final String projectName = optionalProjectName.orElse(faker.regexify("[a-z]{10}"));
+    final String username = optionalUsername.orElse(faker.regexify("[a-z]{10}"));
 
     Project project = factory.manufacturePojo(Project.class);
 
